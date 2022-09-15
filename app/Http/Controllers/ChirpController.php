@@ -15,10 +15,10 @@ class ChirpController extends Controller
      */
     public function index()
     {
-        //
-        return 'Hello, World!';
         return Inertia::render('Chirps/Index', [
+
             //
+
         ]);
     }
 
@@ -41,6 +41,13 @@ class ChirpController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'message' => 'required|string|max:255',
+        ]);
+
+        $request->user()->chirps()->create($validated);
+
+        return redirect(route('chirps.index'));
     }
 
     /**
